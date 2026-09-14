@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>핑크원더 AX 검토</title>
+<title>핑크원더 콘텐츠 에이전트 구축안</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
 <style>
 :root{
   --bg:#FAF7F8; --surface:#FFFFFF; --ink:#241B1F; --muted:#6B5C63; --rule:#E7DCE1;
-  --accent:#B03D66; --accent-soft:#F6E5EC;
-  --ok:#2A7453; --ok-soft:#E1F0E8; --warn:#8F5A0E; --warn-soft:#F6EBD7; --no:#A73232; --no-soft:#F5E0E0;
+  --accent:#B03D66; --accent-soft:#F6E5EC; --on-accent:#FFFFFF;
+  --ok:#2A7453; --ok-soft:#E1F0E8;
   --shadow:rgba(36,27,31,.06);
   --serif:"Gowun Batang","Nanum Myeongjo","AppleMyungjo",serif;
   --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
@@ -21,15 +21,15 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#151113; --surface:#1E181B; --ink:#F0E7EB; --muted:#A8989F; --rule:#362C31;
-    --accent:#E57EA2; --accent-soft:#3A2230;
-    --ok:#72C69E; --ok-soft:#1B2F26; --warn:#E2AB5E; --warn-soft:#33281A; --no:#EE8C8C; --no-soft:#3A1F22;
+    --accent:#E57EA2; --accent-soft:#3A2230; --on-accent:#2A0F1B;
+    --ok:#72C69E; --ok-soft:#1B2F26;
     --shadow:rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
   --bg:#151113; --surface:#1E181B; --ink:#F0E7EB; --muted:#A8989F; --rule:#362C31;
-  --accent:#E57EA2; --accent-soft:#3A2230;
-  --ok:#72C69E; --ok-soft:#1B2F26; --warn:#E2AB5E; --warn-soft:#33281A; --no:#EE8C8C; --no-soft:#3A1F22;
+  --accent:#E57EA2; --accent-soft:#3A2230; --on-accent:#2A0F1B;
+  --ok:#72C69E; --ok-soft:#1B2F26;
   --shadow:rgba(0,0,0,.35);
 }
 *{box-sizing:border-box}
@@ -41,9 +41,9 @@ a{color:var(--accent)}
 .wrap{max-width:1000px;margin:0 auto;padding-block:56px 96px}
 .masthead{max-width:760px;margin-left:calc(160px + 56px);display:grid;gap:14px;padding-bottom:36px;border-bottom:1px solid var(--rule)}
 .eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
-h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,5vw,46px);line-height:1.2;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(32px,5vw,44px);line-height:1.25;margin:0;text-wrap:balance;letter-spacing:-.01em}
 .dek{margin:0;color:var(--muted);font-size:17px;max-width:60ch}
-.meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin:4px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 24px;margin:4px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--muted)}
 .meta b{font-weight:600;color:var(--ink);margin-right:6px}
 
 .layout{display:grid;grid-template-columns:160px minmax(0,760px);gap:56px;margin-top:40px}
@@ -53,68 +53,95 @@ h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,5vw,46px);line-
 .toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 0}
 .toc a:hover{color:var(--ink)}
 
-main{display:grid;gap:72px}
+main{display:grid;gap:76px}
 section{display:grid;gap:22px;scroll-margin-top:24px}
 h2{font-family:var(--serif);font-weight:700;font-size:28px;line-height:1.3;margin:0;text-wrap:balance}
-h3{font-size:18px;font-weight:600;margin:8px 0 0;line-height:1.45}
+h3{font-size:18px;font-weight:600;margin:10px 0 0;line-height:1.45}
 p{margin:0;max-width:65ch}
 .lead{font-size:17px}
 .muted{color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-.tc{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:4px;white-space:nowrap;font-variant-numeric:tabular-nums;vertical-align:1px}
+/* 한눈에 */
+.summary{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:28px;display:grid;gap:22px;box-shadow:0 10px 30px var(--shadow)}
+.summary .big{font-family:var(--serif);font-size:26px;line-height:1.45;margin:0;text-wrap:balance}
+.summary .big em{font-style:normal;color:var(--accent)}
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;border-top:1px solid var(--rule);padding-top:20px}
+.roles div{display:grid;gap:4px;align-content:start}
+.roles .who{font-size:12.5px;font-weight:600;letter-spacing:.06em;color:var(--accent)}
+.roles .what{font-weight:600;line-height:1.5}
+.roles .how{font-size:14px;color:var(--muted);line-height:1.6}
 
-.verdict{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:26px 28px;display:grid;gap:12px}
-.verdict .label{font-size:12.5px;font-weight:600;letter-spacing:.08em;color:var(--muted)}
-.verdict .big{font-family:var(--serif);font-size:25px;line-height:1.45;margin:0;text-wrap:balance}
-.verdict .big em{font-style:normal;color:var(--accent)}
+/* 흐름 */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px;counter-reset:f}
+.flow li{counter-increment:f;display:grid;gap:6px;align-content:start;border-top:2px solid var(--ink);padding-top:12px}
+.flow li::before{content:counter(f);font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent)}
+.flow strong{font-size:16.5px}
+.flow span{font-size:14.5px;color:var(--muted);line-height:1.65}
+.note{background:var(--accent-soft);border-radius:10px;padding:18px 22px;display:grid;gap:6px}
+.note strong{color:var(--accent)}
 
-blockquote{margin:0;padding:0 0 0 24px;position:relative;display:grid;gap:6px;max-width:62ch}
-blockquote::before{content:"\201C";position:absolute;left:-2px;top:-8px;font-family:var(--serif);font-size:40px;color:var(--accent);line-height:1}
-blockquote p{font-size:16.5px}
-blockquote footer{font-size:13px;color:var(--muted)}
+/* 모듈 */
+.phase-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-top:10px;padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.phase-head h3{margin:0}
+.phase-head .when{font-size:13.5px;color:var(--muted)}
+.mods{display:grid}
+.mod{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:4px 14px;padding:18px 0;border-bottom:1px solid var(--rule)}
+.mod .id{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);padding-top:3px}
+.mod h4{margin:0;font-size:16.5px;font-weight:600;line-height:1.5}
+.mod .mm{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--muted);white-space:nowrap;padding-top:3px}
+.mod p{grid-column:2 / 4;font-size:15px}
+.mod .tech{font-size:13px;color:var(--muted)}
+.mod .tech b{font-weight:600;margin-right:6px}
+.safe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:6px}
+.safe div{display:grid;gap:4px;align-content:start}
+.safe strong{font-size:15px}
+.safe span{font-size:14px;color:var(--muted);line-height:1.6}
+.check{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--ok-soft);color:var(--ok);font-size:11px;margin-right:6px;vertical-align:1px}
 
-.split{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.pane{border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:10px;align-content:start}
-.pane .tag{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.pane h3{margin:0}
-ul.plain{margin:0;padding-left:1.1em;display:grid;gap:6px}
-ul.plain li::marker{color:var(--accent)}
-
-.defs{display:grid;margin:0;border-top:1px solid var(--rule)}
-.defs > div{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--rule)}
-.defs dt{font-weight:600}
-.defs dd{margin:0}
-.defs dd small{display:block;color:var(--muted);font-size:14px;margin-top:4px}
-
+/* 일정 */
 .scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px;line-height:1.65}
-th,td{text-align:left;vertical-align:top;padding:13px 16px;border-bottom:1px solid var(--rule)}
-th{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;background:var(--bg)}
-tbody tr:last-child td{border-bottom:0}
-td:first-child{font-weight:600;width:190px}
-td:nth-child(2){width:100px}
-.pill{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap;line-height:1.6}
-.pill.ok{color:var(--ok);background:var(--ok-soft)}
-.pill.warn{color:var(--warn);background:var(--warn-soft)}
-.pill.no{color:var(--no);background:var(--no-soft)}
+.tl{min-width:680px;display:grid;grid-template-columns:130px repeat(18,minmax(0,1fr));row-gap:10px;padding:18px 20px 20px;font-size:13px}
+.tl .month{grid-row:1;font-size:12.5px;font-weight:600;color:var(--muted);border-left:1px solid var(--rule);padding:0 0 6px 8px}
+.tl .lbl{grid-column:1;align-self:center;font-weight:500;padding-right:10px;line-height:1.35}
+.tl .bar{height:30px;border-radius:6px;display:flex;align-items:center;padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px;font-weight:600}
+.tl .b1{background:var(--accent);color:var(--on-accent)}
+.tl .b2{background:var(--accent-soft);color:var(--accent)}
+.tl .b3{background:var(--accent-soft);color:var(--accent)}
+.tl .b4{border:1px dashed var(--accent);color:var(--accent)}
+.tl .sep{grid-column:1 / -1;border-top:1px solid var(--rule);margin:4px 0}
+.tl .ms{display:flex;align-items:center;gap:8px;white-space:nowrap;color:var(--ink)}
+.tl .ms::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none;margin-left:-5px}
+.tl .ms em{font-style:normal;color:var(--muted);font-family:var(--mono);font-size:12px}
 
-.who{display:grid;border-top:1px solid var(--rule)}
-.who > div{display:grid;grid-template-columns:120px 64px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:baseline}
-.who .name{font-weight:600}
+/* 공수 */
+.explain{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.explain .unit{font-family:var(--mono);font-weight:500;color:var(--accent);background:var(--accent-soft);padding:1px 8px;border-radius:4px;font-size:13px}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14.5px;line-height:1.6}
+th,td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid var(--rule)}
+th{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;background:var(--bg);white-space:nowrap}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td small{display:block;color:var(--muted);font-size:13px}
+tfoot td{font-weight:600;border-bottom:0;background:var(--bg)}
+tfoot td.n{color:var(--accent)}
+.zero{color:var(--muted)}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;border-top:1px solid var(--rule)}
+.extras div{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--rule)}
+.extras .n{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
 
-.principles{counter-reset:p;display:grid;gap:16px;margin:0;padding:0;list-style:none}
-.principles li{counter-increment:p;display:grid;grid-template-columns:28px 1fr;gap:14px}
-.principles li::before{content:counter(p);font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);border:1px solid var(--accent);border-radius:50%;width:26px;height:26px;display:grid;place-items:center;margin-top:1px}
+/* 준비 */
+.prep{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.prep div{display:grid;gap:10px;align-content:start;border-top:2px solid var(--ink);padding-top:12px}
+.prep h3{margin:0;font-size:16px}
+.prep ul{margin:0;padding-left:1.1em;display:grid;gap:8px;font-size:14.5px;line-height:1.65}
+.prep li::marker{color:var(--accent)}
 
-.draft{background:var(--surface);border:1px solid var(--rule);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px var(--shadow)}
-.draft-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px 10px 18px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--muted)}
-.draft-body{padding:22px 24px;white-space:pre-wrap;font-size:15.5px;line-height:1.85;margin:0;font-family:var(--sans);color:var(--ink)}
-button.copy{font:inherit;font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:0;border-radius:6px;padding:6px 14px;cursor:pointer}
-
-.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;border-top:1px solid var(--rule)}
-.facts div{padding:14px 0;border-bottom:1px solid var(--rule);display:grid;gap:2px}
-.facts .k{font-size:13px;color:var(--muted)}
-.facts .v{font-weight:500}
+/* 기준 */
+.goals{display:grid;border-top:1px solid var(--rule)}
+.goals > div{display:grid;grid-template-columns:200px 150px 1fr;gap:16px;padding:15px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.goals .k{font-weight:600}
+.goals .v{font-family:var(--serif);font-size:18px;color:var(--accent)}
+.goals .d{font-size:14.5px;color:var(--muted)}
 
 .source{font-size:13px;color:var(--muted);max-width:none}
 
@@ -123,30 +150,32 @@ button.copy{font:inherit;font-size:13px;font-weight:600;color:var(--accent);back
   .layout{grid-template-columns:minmax(0,1fr);gap:28px}
   .toc{position:static;border-bottom:1px solid var(--rule);padding-bottom:12px}
   .toc ol{display:flex;gap:2px 18px;flex-wrap:wrap}
+  .flow,.prep,.safe{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:560px){
   .wrap{padding-block:36px 72px}
-  main{gap:56px}
-  .split,.facts{grid-template-columns:1fr}
-  .defs > div{grid-template-columns:1fr;gap:4px}
-  .who > div{grid-template-columns:1fr auto;gap:4px 12px}
-  .who > div > p{grid-column:1 / -1}
-  .verdict{padding:22px 20px}
-  .verdict .big{font-size:21px}
-  .draft-body{padding:18px}
+  main{gap:60px}
+  .roles,.flow,.prep,.safe,.extras{grid-template-columns:1fr}
+  .summary{padding:22px 20px}
+  .summary .big{font-size:22px}
+  .mod{grid-template-columns:28px minmax(0,1fr)}
+  .mod .mm{grid-column:2;padding-top:0}
+  .mod p{grid-column:2}
+  .goals > div{grid-template-columns:1fr auto;gap:2px 12px}
+  .goals .d{grid-column:1 / -1}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="masthead">
-    <span class="eyebrow">노페일디자인 · 내부 검토</span>
-    <h1>핑크원더 AX 검토</h1>
-    <p class="dek">대면 미팅 녹취를 바탕으로 핑크원더가 원하는 AI 솔루션, 기술적으로 되는 것과 안 되는 것, 그리고 진행 조건을 정리했습니다.</p>
+    <span class="eyebrow">노페일디자인 제안 · 2026.09</span>
+    <h1>핑크원더 콘텐츠 에이전트 구축안</h1>
+    <p class="dek">대표님이 이동 중에 질문에 답하기만 하면, 그 답이 릴스 초안과 콘텐츠 자산으로 쌓이는 시스템입니다. 무엇을 만들고, 어떤 순서로, 얼마나 투입되는지 정리했습니다.</p>
     <ul class="meta">
-      <li><b>미팅</b>2026.09.06 · 77분</li>
-      <li><b>참석</b>핑크원더 대표·마케팅 팀장·마케팅 담당, 양리건, 김낙타(리필)</li>
-      <li><b>상태</b>대표님께 조건부 진행 제안</li>
+      <li><b>목표</b>12월 디바이스 출시 전 실사용</li>
+      <li><b>기간</b>9월 28일 – 12월 말</li>
+      <li><b>투입</b><span class="num">7.4</span> M/M</li>
     </ul>
   </header>
 
@@ -154,162 +183,211 @@ button.copy{font:inherit;font-size:13px;font-weight:600;color:var(--accent);back
     <nav class="toc" aria-label="목차">
       <p>목차</p>
       <ol>
-        <li><a href="#bottom-line">결론</a></li>
-        <li><a href="#needs">원하는 것</a></li>
-        <li><a href="#feasibility">기술 판정</a></li>
-        <li><a href="#operations">누가 다듬나</a></li>
-        <li><a href="#message">발송 메시지</a></li>
-        <li><a href="#context">알아둘 사실</a></li>
+        <li><a href="#summary">한눈에</a></li>
+        <li><a href="#flow">이렇게 돌아갑니다</a></li>
+        <li><a href="#build">만들 것</a></li>
+        <li><a href="#schedule">일정</a></li>
+        <li><a href="#effort">투입 공수</a></li>
+        <li><a href="#prep">준비할 것</a></li>
+        <li><a href="#goals">성공 기준</a></li>
       </ol>
     </nav>
 
     <main>
-      <section id="bottom-line" aria-label="결론">
-        <div class="verdict">
-          <span class="label">결론</span>
-          <p class="big">기술은 됩니다. 막는 건 <em>운영</em>입니다.</p>
-          <p>핑크원더가 원하는 건 대시보드나 업무 자동화가 아니라, <strong>대표님께 말을 걸어 콘텐츠 재료를 끌어내고 그걸 주제·스크립트로 쌓아주는 개인 에이전트</strong>입니다. 만들 수는 있습니다. 문제는 대표님 취향에 맞게 계속 다듬어 줄 사람이 없다는 점이고, 그래서 <strong>다듬을 필요가 없는 설계</strong>와 <strong>8주 종료 조건</strong>을 걸고 조건부로 진행을 제안합니다.</p>
+      <section id="summary" aria-label="한눈에">
+        <div class="summary">
+          <p class="big">대표님은 <em>고르고 말하기만</em> 하시면 됩니다. 나머지는 시스템이 합니다.</p>
+          <p>이미 하고 계신 방식, 차 안에서 질문받으며 이야기하고 그걸 릴스로 만드는 흐름을 그대로 시스템으로 옮깁니다. 새로 배우실 것은 없고, 질문 준비와 영상 정리, 다음 질문 개선을 자동화합니다.</p>
+          <div class="roles">
+            <div><span class="who">대표님</span><span class="what">질문 고르고 답하기</span><span class="how">이동 중 카드를 넘기다 끌리는 질문에 답하고, 찍은 영상을 폴더에 넣으면 끝</span></div>
+            <div><span class="who">마케팅팀</span><span class="what">주 1회 10분, 이번 주 소식</span><span class="how">프로모션, 일정, 고객 반응을 입력칸 세 곳에 적기. 판단은 필요 없음</span></div>
+            <div><span class="who">노페일디자인</span><span class="what">구축과 매달 개선</span><span class="how">어떤 질문이 선택되고 넘겨졌는지 기록을 보고 질문 기준을 조정</span></div>
+          </div>
         </div>
       </section>
 
-      <section id="needs" aria-labelledby="h-needs">
-        <h2 id="h-needs">핑크원더가 원하는 것</h2>
-        <p class="lead">핵심은 하나, 대표 전용 콘텐츠 에이전트입니다. 회의 중 같은 에이전트가 기획과 동기부여를 함께 맡는 것으로 정리됐습니다.</p>
-        <blockquote>
-          <p>비서가 맨날 같이 붙어 있는 사람이면 불편하니까 시스템이었으면 좋겠다. 진짜 자비스처럼. ‘별로야, 별로야, 별로야’ 하면 그중에서 뭔가 하나가 딱 나올 거 아니에요. 그거를 정말 자유롭게 상의할 수 있는 에이전트.</p>
-          <footer>대표 <span class="tc">49:09</span></footer>
-        </blockquote>
-
-        <div class="split">
-          <div class="pane">
-            <span class="tag">기능 A</span>
-            <h3>콘텐츠 기획</h3>
-            <ul class="plain">
-              <li>인스타·블로그·성과 데이터로 계정 상태 진단</li>
-              <li>카테고리별 주제 3개, 주제별 스크립트 3–4개 초안</li>
-              <li>터진 이유·안 터진 이유 분석 (오프닝, 화면 구도)</li>
-              <li>완성 영상 자동 생성은 요구하지 않음 <span class="tc">05:03</span></li>
-            </ul>
-          </div>
-          <div class="pane">
-            <span class="tag">기능 B</span>
-            <h3>질문으로 말문 트기</h3>
-            <ul class="plain">
-              <li>지시가 아니라 인터뷰식 질문 <span class="tc">48:35</span></li>
-              <li>차 안에서 질문받으며 10분 녹화 → 59초 릴스, 이미 실행 중 <span class="tc">50:26</span></li>
-              <li>“완벽한 건 필요 없어요” <span class="tc">48:19</span></li>
-              <li>대표 답변이 자산으로 쌓여 발행까지 이어져야 함 <span class="tc">50:02</span></li>
-            </ul>
-          </div>
+      <section id="flow" aria-labelledby="h-flow">
+        <h2 id="h-flow">이렇게 돌아갑니다</h2>
+        <p class="lead">한 주 단위로 한 바퀴를 돕니다. 6번에서 쌓인 기록이 다음 주 1번을 더 좋게 만듭니다.</p>
+        <ol class="flow">
+          <li><strong>질문 카드 준비</strong><span>매주 월요일, 브랜드 자료와 지난 성과, 이번 주 소식을 바탕으로 질문 20–30개가 만들어집니다.</span></li>
+          <li><strong>고르기</strong><span>이동 중에 카드를 넘기다 끌리는 질문을 누릅니다. “별로야” 하고 넘긴 질문도 기록됩니다.</span></li>
+          <li><strong>말하기</strong><span>앱이 차 스피커로 질문을 읽어줍니다. 촬영은 지금처럼 거치대의 휴대폰으로 합니다.</span></li>
+          <li><strong>올리기</strong><span>찍은 영상을 정해둔 폴더에 넣습니다. 대표님이 하실 일은 여기까지입니다.</span></li>
+          <li><strong>자동 정리</strong><span>다음 날 오전까지 59초·30초 편집안, 오프닝 문구 3개, 커버 문구, 캡션 초안이 영상팀에 도착합니다.</span></li>
+          <li><strong>쌓이고 배우기</strong><span>발행 후 성과와 선택 기록이 다음 주 질문에 반영됩니다. 답변은 주제별로 쌓여 책·유튜브 재료가 됩니다.</span></li>
+        </ol>
+        <div class="note">
+          <strong>질문을 다듬는 일은 대표님 몫이 아닙니다.</strong>
+          <p>대표님이 고르고 넘기신 기록이 곧 피드백입니다. 따로 설명하거나 설정을 고치실 필요 없이, 노페일디자인이 매달 이 기록을 분석해 질문 기준을 조정합니다.</p>
         </div>
-
-        <h3>에이전트에 붙는 부속</h3>
-        <dl class="defs">
-          <div><dt>인스타 성과 대시보드</dt><dd>릴스 배포 후 도달 단계별 추적, 단계별 기간과 가중치 측정 <span class="tc">02:52</span><small>대표가 처음부터 관심을 표한 항목</small></dd></div>
-          <div><dt>시딩·PPL 크리에이터 분석</dt><dd>후보 계정 발굴, 계정별 콘텐츠 구조·훅 분석, 크리에이터 맞춤 스크립트 제공 <span class="tc">30:00</span><small>회의 후반 PPL·시딩을 새로 해보기로 하며 생긴 니즈</small></dd></div>
-          <div><dt>DM 자산화</dt><dd>고객별 대화 이력 요약, 자주 나오는 질문(VOC) 추출, 대표 말투로 답장 초안 <span class="tc">42:27</span><small>DM은 지금 정리 없이 쌓아만 두는 상태 <span class="tc">41:44</span></small></dd></div>
-        </dl>
-        <p class="muted">언급됐지만 당장의 니즈는 아닌 것: 통합 업무 대시보드(무엇을 묶을지 정리 안 됨), 지표 변화에 따른 이벤트 추천, 부가세·법인세 준비, CRM 메일·문자 발송(이미 GPT로 일부 해결).</p>
       </section>
 
-      <section id="feasibility" aria-labelledby="h-feas">
-        <h2 id="h-feas">기술 판정</h2>
-        <p>핵심 에이전트는 구현 가능합니다. 부속 중 인스타 대시보드와 크리에이터 분석은 회의에서 나온 방식 그대로는 위험해서 설계를 바꿔야 합니다.</p>
+      <section id="build" aria-labelledby="h-build">
+        <h2 id="h-build">만들 것</h2>
+        <p>모두 11개 구성 요소이고, 세 단계로 나눠 만듭니다. 12월 출시 전까지는 1·2단계를 끝내고, 확장은 사용해 본 뒤 선택하시면 됩니다.</p>
+
+        <div class="phase-head"><h3>1단계 · 대표님 루프</h3><span class="when">9월 28일 – 10월 30일, 5주</span></div>
+        <div class="mods">
+          <div class="mod"><span class="id">A</span><h4>브랜드 자료실</h4><span class="mm">0.7 M/M</span>
+            <p>대표님 인스타 글, 블로그, 라이브, 인터뷰, 제품·브랜드 자료를 AI가 읽기 좋게 정리한 자료실입니다. 질문과 초안이 대표님다운 이유가 여기서 나옵니다.</p>
+            <p class="tech"><b>기술</b>자료 수집, 주제별 요약·연결(LLM 위키)</p></div>
+          <div class="mod"><span class="id">B</span><h4>질문 카드 앱</h4><span class="mm">0.9 M/M</span>
+            <p>휴대폰 브라우저에서 여는 앱입니다. 설치가 필요 없습니다. 카드 넘기기, 질문 읽어주기, 선택 기록 기능이 들어갑니다.</p>
+            <p class="tech"><b>기술</b>모바일 웹앱(PWA), 음성 합성, 사용 기록 저장</p></div>
+          <div class="mod"><span class="id">C</span><h4>영상 자동 정리</h4><span class="mm">0.7 M/M</span>
+            <p>폴더에 올라온 영상을 받아쓰고, 좋은 구간을 찾아 편집 지시서를 만듭니다. 구간 시간, 자막, 오프닝 문구, 커버 문구, 캡션까지 한 장에 담아 영상팀에 보냅니다.</p>
+            <p class="tech"><b>기술</b>한국어 음성 인식, 구간 추출, 클라우드 폴더 연동, 메신저 알림</p></div>
+          <div class="mod"><span class="id">D</span><h4>주간 질문 생성 · 소식 입력 폼</h4><span class="mm">0.6 M/M</span>
+            <p>매주 월요일 질문 카드를 새로 만듭니다. 이미 답한 주제는 피하고, 마케팅팀이 입력한 이번 주 소식을 반영합니다.</p>
+            <p class="tech"><b>기술</b>주간 자동 실행, 질문 설계 기준(콘텐츠 디렉터 설계), 입력 폼</p></div>
+        </div>
+
+        <div class="phase-head"><h3>2단계 · 성과 데이터 연결</h3><span class="when">11월 2일 – 11월 27일, 4주</span></div>
+        <div class="mods">
+          <div class="mod"><span class="id">E</span><h4>인스타 성과 수집</h4><span class="mm">0.7 M/M</span>
+            <p>메타 공식 연동으로 게시물별 도달, 조회, 시청 시간, 저장, 공유, 팔로우를 매일 모읍니다. 공식 연동에 없는 팔로워·비팔로워 도달 비율은 주 1회 인사이트 화면 캡처를 올리면 자동으로 읽어냅니다.</p>
+            <p class="tech"><b>기술</b>Instagram Graph API, 이미지 판독</p></div>
+          <div class="mod"><span class="id">F</span><h4>성과 패턴 분석</h4><span class="mm">1.0 M/M</span>
+            <p>콘텐츠마다 주제, 오프닝 방식, 길이, 함께 나온 사람을 표시해 “우리 계정에서 반응이 좋은 패턴”을 찾습니다. 결과는 월간 리포트로 드리고, 다음 질문 생성에 자동 반영됩니다.</p>
+            <p class="tech"><b>기술</b>콘텐츠 자동 분류, 성과 비교 분석, 질문 생성 연결</p></div>
+          <div class="mod"><span class="id">G</span><h4>가입 경로 추적</h4><span class="mm">0.4 M/M</span>
+            <p>신규 가입이 광고, 대표님 계정, 시딩 중 어디서 왔는지 자사몰 대시보드에 보여드립니다. 대표님 콘텐츠가 신규 유입에 얼마나 기여하는지 숫자로 볼 수 있습니다.</p>
+            <p class="tech"><b>기술</b>링크 추적 규칙(UTM), 가입 시 첫 유입 경로 저장, 기존 대시보드 연동</p></div>
+          <div class="mod"><span class="id">H</span><h4>DM 고객 목소리 정리</h4><span class="mm">0.3 M/M</span>
+            <p>월 1회 DM 데이터를 받아 자주 나오는 고민과 질문을 순위로 뽑고, 고객별 대화 이력을 요약합니다. 고객 목소리가 그대로 질문 카드 재료가 됩니다.</p>
+            <p class="tech"><b>기술</b>인스타 데이터 다운로드 파일 분석, 주제 분류</p></div>
+        </div>
+
+        <div class="phase-head"><h3>확장 · 사용해 보고 선택</h3><span class="when">1월 이후</span></div>
+        <div class="mods">
+          <div class="mod"><span class="id">I</span><h4>크리에이터 발굴 · 가이드</h4><span class="mm">1.0 M/M</span>
+            <p>PPL·시딩 후보를 찾고 계정을 분석해, 크리에이터별로 핑크원더 이야기를 풀 가이드 초안을 만듭니다.</p>
+            <p class="tech"><b>기술</b>인플루언서 데이터 서비스, 메타 공식 계정 조회</p></div>
+          <div class="mod"><span class="id">J</span><h4>DM 답장 초안</h4><span class="mm">0.9 M/M</span>
+            <p>DM이 오면 대표님 말투로 답장 초안을 준비합니다. 메타 앱 심사를 거쳐야 해서 심사 기간이 별도로 걸립니다.</p>
+            <p class="tech"><b>기술</b>Instagram Messaging API, 앱 심사, 말투 학습</p></div>
+          <div class="mod"><span class="id">K</span><h4>1차 컷 자동 편집</h4><span class="mm">0.6 M/M</span>
+            <p>편집 지시서대로 1차 컷 영상과 자막까지 자동으로 만들어 영상팀의 작업 시간을 줄입니다.</p>
+            <p class="tech"><b>기술</b>자동 컷 편집, 자막 생성</p></div>
+        </div>
+
+        <h3>안전하게 가는 원칙</h3>
+        <div class="safe">
+          <div><strong><span class="check">✓</span>공식 연동만 사용</strong><span>대표님 계정 비밀번호를 받지 않고, 메타가 허용한 방식만 씁니다. 계정 제재 걱정이 없습니다.</span></div>
+          <div><strong><span class="check">✓</span>고객 정보는 계약 기반</strong><span>DM 등 고객 정보는 처리 위탁 계약을 맺고, 분석용으로만 씁니다.</span></div>
+          <div><strong><span class="check">✓</span>핑크원더 쪽 관리 부담 없음</strong><span>사내 개발자 없이 돌아가도록 운영과 수정은 노페일디자인이 맡습니다.</span></div>
+        </div>
+      </section>
+
+      <section id="schedule" aria-labelledby="h-sch">
+        <h2 id="h-sch">일정</h2>
+        <p>2주 안에 계약과 자료 전달을 마치면 9월 28일에 시작합니다. 대표님은 10월 셋째 주부터 먼저 써보시고, 디바이스 출시 시점에는 성과 데이터까지 연결된 상태로 운영합니다.</p>
+        <div class="scroll">
+          <div class="tl" role="img" aria-label="9월 28일부터 1월까지 주 단위 일정표">
+            <span class="month" style="grid-column:2 / 7">10월</span>
+            <span class="month" style="grid-column:7 / 11">11월</span>
+            <span class="month" style="grid-column:11 / 16">12월</span>
+            <span class="month" style="grid-column:16 / 20">1월</span>
+
+            <span class="lbl" style="grid-row:2">1단계 대표님 루프</span>
+            <span class="bar b1" style="grid-row:2;grid-column:2 / 7">A · B · C · D</span>
+            <span class="lbl" style="grid-row:3">2단계 데이터 연결</span>
+            <span class="bar b2" style="grid-row:3;grid-column:7 / 11">E · F · G · H</span>
+            <span class="lbl" style="grid-row:4">3단계 출시 운영</span>
+            <span class="bar b3" style="grid-row:4;grid-column:11 / 16">출시 콘텐츠 시리즈</span>
+            <span class="lbl" style="grid-row:5">운영 · 확장</span>
+            <span class="bar b4" style="grid-row:5;grid-column:16 / 20">월 운영 + I · J · K 선택</span>
+
+            <span class="sep" style="grid-row:6"></span>
+
+            <span class="lbl" style="grid-row:7">주요 시점</span>
+            <span class="ms" style="grid-row:7;grid-column:5 / 20">대표님 먼저 사용 <em>10/19</em></span>
+            <span class="ms" style="grid-row:8;grid-column:7 / 20">정식 사용 시작 <em>11/2</em></span>
+            <span class="ms" style="grid-row:9;grid-column:11 / 20">4주 점검 <em>11/30</em></span>
+            <span class="ms" style="grid-row:10;grid-column:13 / 20">디바이스 출시 <em>12월 중순</em></span>
+            <span class="ms" style="grid-row:11;grid-column:15 / 20">8주 점검 <em>12/28</em></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="effort" aria-labelledby="h-eff">
+        <h2 id="h-eff">투입 공수</h2>
+        <div class="explain"><span class="unit">1 M/M</span><p>한 사람이 한 달 동안 이 일만 전담하는 작업량입니다. 0.5 M/M은 한 사람이 한 달의 절반을 쓰는 양입니다.</p></div>
         <div class="scroll">
           <table>
-            <thead><tr><th scope="col">항목</th><th scope="col">판정</th><th scope="col">근거와 대안</th></tr></thead>
+            <thead>
+              <tr><th scope="col">역할</th><th scope="col" class="n">1단계</th><th scope="col" class="n">2단계</th><th scope="col" class="n">3단계</th><th scope="col" class="n">합계</th></tr>
+            </thead>
             <tbody>
-              <tr><td>질문·인터뷰 에이전트</td><td><span class="pill ok">가능</span></td><td>대표가 기본 Claude로 이미 하고 있습니다. 남은 일은 브랜드·일정 정보 주입, 녹취 자동 회수, 편집 지시서 자동 작성.</td></tr>
-              <tr><td>DM 자산화</td><td><span class="pill ok">가능</span></td><td>인스타 데이터 다운로드(JSON)에 DM이 포함됩니다. 본인 데이터라 약관 문제 없음. 실시간 답장은 메타 앱 심사가 필요해 2차로. 고객 개인정보라 처리 근거는 계약서에 명시.</td></tr>
-              <tr><td>주제·스크립트 추천</td><td><span class="pill ok">가능</span></td><td>품질은 넣어주는 성과 데이터의 질에 좌우됩니다.</td></tr>
-              <tr><td>광고 vs 오가닉 가입 구분</td><td><span class="pill ok">가능</span></td><td>회의에서 불가로 닫혔지만 <span class="tc">25:30</span> 자사몰에서 풀 수 있습니다. 광고 링크의 fbclid, 프로필·스토리 링크의 UTM으로 가입자별 첫 유입 경로를 기록. 완벽하진 않아도 지금의 0보다 훨씬 낫습니다.</td></tr>
-              <tr><td>인스타 성과 대시보드</td><td><span class="pill warn">설계 변경</span></td><td>대표 계정 로그인 서버 상주 방식 <span class="tc">04:03</span>은 비공식 수집이라 계정 제재 위험이 있습니다. 매출의 원천인 계정을 걸 수 없으므로 공식 API + 주 1회 인사이트 화면 캡처 판독으로 대체.</td></tr>
-              <tr><td>크리에이터 발굴·분석</td><td><span class="pill warn">설계 변경</span></td><td>타 계정은 공식 API로 팔로워·좋아요·댓글 수까지만 보입니다. 인플루언서 데이터 서비스 API로 보완. “핑크원더스러운가”의 최종 선별은 사람 몫.</td></tr>
-              <tr><td>도달 단계 세분화, 알고리즘 가중치</td><td><span class="pill no">불가</span></td><td>API가 주지 않고, 메타가 공개한 가중치표도 없습니다. 핑크원더 과거 게시물을 분석해 “우리 계정에서 도달을 끈 요인”을 추정하는 것으로 대체.</td></tr>
+              <tr><td>PM · 기획<small>일정, 핑크원더 소통, 품질 관리</small></td><td class="n">0.6</td><td class="n">0.5</td><td class="n">0.3</td><td class="n">1.4</td></tr>
+              <tr><td>AI 엔지니어<small>자료실, 영상 정리, 질문 생성, 분석</small></td><td class="n">1.3</td><td class="n">1.3</td><td class="n">0.3</td><td class="n">2.9</td></tr>
+              <tr><td>풀스택 개발자<small>질문 카드 앱, 데이터 수집, 대시보드 연동</small></td><td class="n">0.8</td><td class="n">0.9</td><td class="n">0.1</td><td class="n">1.8</td></tr>
+              <tr><td>콘텐츠 디렉터<small>질문 설계 기준, 브랜드 말투, 출시 시리즈</small></td><td class="n">0.6</td><td class="n">0.2</td><td class="n">0.3</td><td class="n">1.1</td></tr>
+              <tr><td>UI 디자이너<small>질문 카드 앱 화면</small></td><td class="n">0.2</td><td class="n zero">–</td><td class="n zero">–</td><td class="n">0.2</td></tr>
             </tbody>
+            <tfoot>
+              <tr><td>단계별 합계</td><td class="n">3.5</td><td class="n">2.9</td><td class="n">1.0</td><td class="n">7.4</td></tr>
+            </tfoot>
           </table>
         </div>
-      </section>
+        <p class="muted">여러 사람이 동시에 나눠 맡기 때문에, 7.4 M/M은 약 3개월 동안 2–3명이 투입되는 규모입니다. 이미 있는 서비스를 최대한 활용하는 기준이며, 자료 상태와 자사몰 연동 범위에 따라 ±20% 달라질 수 있습니다.</p>
 
-      <section id="operations" aria-labelledby="h-ops">
-        <h2 id="h-ops">누가 다듬나</h2>
-        <p class="lead">AI 질문은 사람과의 대화만큼 매끄럽지 않고, 쓰면서 계속 조율해야 합니다. 그 조율을 맡을 사람이 있는지 검토했고, 없습니다.</p>
-        <div class="who">
-          <div><span class="name">대표</span><span class="pill no">불가</span><p>챗봇이 실패한 이유가 “뭘 고쳐달라는 이야기까지 소통이 너무 오래 걸려요” <span class="tc">44:06</span>였습니다. 에이전트를 원하는 이유도 사람 비서처럼 학습시킬 필요가 없어서입니다 <span class="tc">1:12:18</span>.</p></div>
-          <div><span class="name">마케팅 팀장</span><span class="pill no">불가</span><p>매출 책임 때문에 “티적으로 할 수밖에 없다”고 직접 말했습니다 <span class="tc">48:35</span>. 대표 취향을 대신 맞추는 역할과 맞지 않습니다.</p></div>
-          <div><span class="name">김낙타 (리필)</span><span class="pill no">불가</span><p>외부 파트너라 남의 회사 에이전트를 주 단위로 돌볼 구조가 아닙니다.</p></div>
+        <h3>1월 이후</h3>
+        <div class="extras">
+          <div><span>월 운영 · 개선</span><span class="n">0.5 M/M / 월</span></div>
+          <div><span>I · 크리에이터 발굴 · 가이드</span><span class="n">1.0 M/M</span></div>
+          <div><span>J · DM 답장 초안</span><span class="n">0.9 M/M</span></div>
+          <div><span>K · 1차 컷 자동 편집</span><span class="n">0.6 M/M</span></div>
         </div>
-        <blockquote>
-          <p>디자인팀이 만든 광고 소재를 결국엔 확인을 안 하게 되더라고요. 저의 스타일이 아니다 보니까.</p>
-          <footer>대표 <span class="tc">17:54</span> · 남이 대표 취향을 대신 맞췄을 때의 선례</footer>
-        </blockquote>
-
-        <h3>그래서, 다듬을 필요가 없는 설계로</h3>
-        <p>이미 효과를 본 세 가지, 차 안의 기본 Claude, 유니세프 출장 때의 인터뷰 질문지, 라이브 댓글은 모두 품질 조율 없이 작동했습니다. 질문이 훌륭해서가 아니라 혼자 말하는 어색함을 없애줬기 때문입니다. 대표 본인도 “옆 사람 이야기는 별로 들어가지 않지만 나의 답변이 주제가 된다”고 했습니다 <span class="tc">52:06</span>. 변수는 정확도가 아니라 물량과 넘기기 쉬움입니다.</p>
-        <ol class="principles">
-          <li><div><strong>여러 개 던지고 넘기게 한다.</strong> 질문을 맞추려 하지 않고, 대표가 “별로야” 하며 걸리는 것만 잡습니다. 맞출 필요가 없으니 손볼 것도 없습니다.</div></li>
-          <li><div><strong>팀장은 취향이 아니라 사실만 넣는다.</strong> 이번 주 프로모션, 12월 디바이스 일정, 지난주 반응 좋았던 콘텐츠. 주 1회 10분, 판단 없음.</div></li>
-          <li><div><strong>녹음 다음 날 오전까지 59초 초안.</strong> 대표 동기는 “내가 다 안 해도 굴러간다”는 증거에서 나옵니다 <span class="tc">58:44</span>. 결과가 늦으면 이탈합니다.</div></li>
-        </ol>
-        <p><strong>진짜 위험은 조용한 이탈입니다.</strong> 사람 비서와 달리 안 써도 아무도 모릅니다. 그래서 성공 기준을 미리 숫자로 정합니다. <strong>8주 동안 주 2회 이상 녹음이 나오지 않으면 종료.</strong></p>
+        <p class="muted">별도 월 비용: AI 사용료, 음성 인식, 서버, 확장 시 인플루언서 데이터 서비스 구독. 사용량에 따라 달라져 견적 때 함께 확정합니다.</p>
       </section>
 
-      <section id="message" aria-labelledby="h-msg">
-        <h2 id="h-msg">대표님께 보낼 메시지</h2>
-        <p class="muted">카카오톡 발송용. “프롬프트”, “튜닝” 같은 용어는 일부러 뺐습니다.</p>
-        <div class="draft">
-          <div class="draft-head"><span>발송 초안</span><button type="button" class="copy" id="copy-msg">복사</button></div>
-<pre class="draft-body" id="msg-text">대표님, 어제 미팅 감사했습니다. 정리하면서 계속 고민해봤는데요.
-
-기술은 됩니다. 걱정되는 건 지난번 챗봇처럼 만들어놓고 안 쓰시게 되는 경우입니다. 대표님 취향에 맞게 누가 계속 손봐야 하는 구조로 만들면 반드시 그렇게 됩니다. 그 취향은 팀장님도 낙타님도 대신 못 맞춥니다. 디자인팀 광고 소재도 결국 확인 안 하게 되셨잖아요. 똑같은 일이 벌어집니다.
-
-그래서 취향을 맞추려는 시도를 아예 빼려고 합니다.
-
-1. 질문을 정교하게 고르지 않습니다. 한 번에 여러 개 던지고, 대표님은 지금처럼 "별로야" 하고 넘기시다가 걸리는 것만 잡으시면 됩니다. 맞출 필요가 없으니 손볼 것도 없습니다.
-
-2. 팀장님은 취향이 아니라 사실만 넣습니다. 이번 주 프로모션, 12월 디바이스 일정, 지난주 반응 좋았던 콘텐츠. 주 1회 10분이면 되고 판단은 안 하셔도 됩니다.
-
-3. 녹음하신 다음 날 오전까지 59초 편집본 초안이 나오게 만듭니다. 여기가 느리면 아무리 잘 만들어도 죽습니다.
-
-그리고 8주 돌려보고 주 2회 녹음이 안 나오면 접는 걸로 미리 정해두고 시작하고 싶습니다. 이 조건이면 해볼 만합니다.</pre>
+      <section id="prep" aria-labelledby="h-prep">
+        <h2 id="h-prep">준비할 것</h2>
+        <p>시작 전 2주 동안 챙겨주실 것과, 시작 후 반복되는 일입니다.</p>
+        <div class="prep">
+          <div>
+            <h3>대표님</h3>
+            <ul>
+              <li>시작할 때 1시간 인터뷰: 좋아하는 주제, 피하고 싶은 주제</li>
+              <li>이동 중 질문 카드로 이야기하기</li>
+              <li>찍은 영상을 폴더에 넣기</li>
+            </ul>
+          </div>
+          <div>
+            <h3>마케팅팀</h3>
+            <ul>
+              <li>과거 자료 전달: 블로그, 라이브 녹화, 인터뷰, 기존 분석 자료, 제품·브랜드 자료</li>
+              <li>매주 월요일 10분, 이번 주 소식 입력</li>
+              <li>영상팀: 편집 지시서를 받아 편집·발행</li>
+            </ul>
+          </div>
+          <div>
+            <h3>회사 차원</h3>
+            <ul>
+              <li>메타 비즈니스 관리자 권한 공유</li>
+              <li>자사몰 개발사에 가입 경로 저장 작업 요청 (요청서는 노페일디자인이 작성)</li>
+              <li>인스타 DM 데이터 다운로드 신청 (처음 받는 데 며칠 걸려 첫 주에 신청)</li>
+              <li>고객 정보 처리 위탁 계약</li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section id="context" aria-labelledby="h-ctx">
-        <h2 id="h-ctx">제안 전에 알아둘 사실</h2>
-        <div class="facts">
-          <div><span class="k">메타 광고비</span><span class="v">월 1억 원 미만, 축소 예정 <span class="tc">26:26</span></span></div>
-          <div><span class="k">핵심 KPI</span><span class="v">신규 가입 주 200–250명 목표, 현재 100–150명</span></div>
-          <div><span class="k">재구매율</span><span class="v">60% 이상, 철학을 보고 온 고객 객단가 10–15만 원+</span></div>
-          <div><span class="k">브랜드 가드레일</span><span class="v">자극적인 훅으로 들어온 고객은 악성 비율 높음 <span class="tc">1:01:45</span></span></div>
-          <div><span class="k">사내 개발 인력</span><span class="v">개발자·퍼블리셔 0명, 전부 외주 <span class="tc">1:08:34</span></span></div>
-          <div><span class="k">과거 AI 도입</span><span class="v">자체 챗봇 개발 후 미사용, 채널톡 ALF로 전환 중</span></div>
-          <div><span class="k">빅 이벤트</span><span class="v">12월 중순 뷰티 디바이스 출시, 80만 원대</span></div>
-          <div><span class="k">조직</span><span class="v">2–3분기 개편 완료, 대표 본인 역할 정의만 미정</span></div>
+      <section id="goals" aria-labelledby="h-goals">
+        <h2 id="h-goals">성공 기준</h2>
+        <p>숫자로 미리 정해두고 4주, 8주에 함께 봅니다. 기준에 못 미치면 질문 방식이나 앱 흐름을 바꿔 다시 맞춥니다.</p>
+        <div class="goals">
+          <div><span class="k">대표님 촬영 횟수</span><span class="v">주 2회 이상</span><span class="d">가장 먼저 보는 지표입니다. 시스템이 편하면 자연스럽게 늘어납니다.</span></div>
+          <div><span class="k">촬영 → 초안 도착</span><span class="v">다음 날 오전</span><span class="d">결과가 빨리 보여야 계속 쓰게 됩니다.</span></div>
+          <div><span class="k">질문 선택률</span><span class="v">매달 상승</span><span class="d">넘기는 질문이 줄고 고르는 질문이 늘면 개선이 제대로 되고 있다는 뜻입니다.</span></div>
+          <div><span class="k">대표님 계정 경유 가입</span><span class="v">추적 시작 후 상승</span><span class="d">가입 경로 추적(G)이 붙는 11월부터 기준값을 잡고 추이를 봅니다.</span></div>
         </div>
-        <p class="source">출처: 핑크원더 대면미팅 녹음(2026.09.06) 클로바노트 자동 전사. 화자 구분이 일부 부정확하며, 타임코드는 녹취 기준입니다.</p>
+        <p class="source">2026년 9월 6일 핑크원더 대면 미팅 내용을 바탕으로 작성했습니다. 공수와 일정은 제안 단계 추정치이며 계약 시 확정합니다.</p>
       </section>
     </main>
   </div>
 </div>
-<script>
-(function(){
-  var btn=document.getElementById('copy-msg');
-  var src=document.getElementById('msg-text');
-  if(!btn||!src)return;
-  function done(){btn.textContent='복사됨';setTimeout(function(){btn.textContent='복사';},1800);}
-  function fallback(){
-    var r=document.createRange();r.selectNodeContents(src);
-    var s=window.getSelection();s.removeAllRanges();s.addRange(r);
-    try{document.execCommand('copy');done();}catch(e){btn.textContent='직접 선택해 복사하세요';}
-  }
-  btn.addEventListener('click',function(){
-    var text=src.textContent;
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(done,fallback);
-    }else{fallback();}
-  });
-})();
-</script>
 </body>
 </html>
