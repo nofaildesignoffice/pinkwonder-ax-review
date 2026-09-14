@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>핑크원더 AX 검토</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#FAF7F8; --surface:#FFFFFF; --ink:#241B1F; --muted:#6B5C63; --rule:#E7DCE1;
+  --accent:#B03D66; --accent-soft:#F6E5EC;
+  --ok:#2A7453; --ok-soft:#E1F0E8; --warn:#8F5A0E; --warn-soft:#F6EBD7; --no:#A73232; --no-soft:#F5E0E0;
+  --shadow:rgba(36,27,31,.06);
+  --serif:"Gowun Batang","Nanum Myeongjo","AppleMyungjo",serif;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Consolas",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151113; --surface:#1E181B; --ink:#F0E7EB; --muted:#A8989F; --rule:#362C31;
+    --accent:#E57EA2; --accent-soft:#3A2230;
+    --ok:#72C69E; --ok-soft:#1B2F26; --warn:#E2AB5E; --warn-soft:#33281A; --no:#EE8C8C; --no-soft:#3A1F22;
+    --shadow:rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151113; --surface:#1E181B; --ink:#F0E7EB; --muted:#A8989F; --rule:#362C31;
+  --accent:#E57EA2; --accent-soft:#3A2230;
+  --ok:#72C69E; --ok-soft:#1B2F26; --warn:#E2AB5E; --warn-soft:#33281A; --no:#EE8C8C; --no-soft:#3A1F22;
+  --shadow:rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;word-break:keep-all;overflow-wrap:break-word;padding-inline:20px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:1000px;margin:0 auto;padding-block:56px 96px}
+.masthead{max-width:760px;margin-left:calc(160px + 56px);display:grid;gap:14px;padding-bottom:36px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.08em;color:var(--accent)}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,5vw,46px);line-height:1.2;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.dek{margin:0;color:var(--muted);font-size:17px;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 22px;margin:4px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--muted)}
+.meta b{font-weight:600;color:var(--ink);margin-right:6px}
+
+.layout{display:grid;grid-template-columns:160px minmax(0,760px);gap:56px;margin-top:40px}
+.toc{position:sticky;top:28px;align-self:start;font-size:14px}
+.toc p{margin:0 0 8px;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:block;color:var(--muted);text-decoration:none;padding:4px 0}
+.toc a:hover{color:var(--ink)}
+
+main{display:grid;gap:72px}
+section{display:grid;gap:22px;scroll-margin-top:24px}
+h2{font-family:var(--serif);font-weight:700;font-size:28px;line-height:1.3;margin:0;text-wrap:balance}
+h3{font-size:18px;font-weight:600;margin:8px 0 0;line-height:1.45}
+p{margin:0;max-width:65ch}
+.lead{font-size:17px}
+.muted{color:var(--muted)}
+
+.tc{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:4px;white-space:nowrap;font-variant-numeric:tabular-nums;vertical-align:1px}
+
+.verdict{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:26px 28px;display:grid;gap:12px}
+.verdict .label{font-size:12.5px;font-weight:600;letter-spacing:.08em;color:var(--muted)}
+.verdict .big{font-family:var(--serif);font-size:25px;line-height:1.45;margin:0;text-wrap:balance}
+.verdict .big em{font-style:normal;color:var(--accent)}
+
+blockquote{margin:0;padding:0 0 0 24px;position:relative;display:grid;gap:6px;max-width:62ch}
+blockquote::before{content:"\201C";position:absolute;left:-2px;top:-8px;font-family:var(--serif);font-size:40px;color:var(--accent);line-height:1}
+blockquote p{font-size:16.5px}
+blockquote footer{font-size:13px;color:var(--muted)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.pane{border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:10px;align-content:start}
+.pane .tag{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pane h3{margin:0}
+ul.plain{margin:0;padding-left:1.1em;display:grid;gap:6px}
+ul.plain li::marker{color:var(--accent)}
+
+.defs{display:grid;margin:0;border-top:1px solid var(--rule)}
+.defs > div{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.defs dt{font-weight:600}
+.defs dd{margin:0}
+.defs dd small{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14.5px;line-height:1.65}
+th,td{text-align:left;vertical-align:top;padding:13px 16px;border-bottom:1px solid var(--rule)}
+th{font-size:12.5px;font-weight:600;color:var(--muted);letter-spacing:.04em;background:var(--bg)}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;width:190px}
+td:nth-child(2){width:100px}
+.pill{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap;line-height:1.6}
+.pill.ok{color:var(--ok);background:var(--ok-soft)}
+.pill.warn{color:var(--warn);background:var(--warn-soft)}
+.pill.no{color:var(--no);background:var(--no-soft)}
+
+.who{display:grid;border-top:1px solid var(--rule)}
+.who > div{display:grid;grid-template-columns:120px 64px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.who .name{font-weight:600}
+
+.principles{counter-reset:p;display:grid;gap:16px;margin:0;padding:0;list-style:none}
+.principles li{counter-increment:p;display:grid;grid-template-columns:28px 1fr;gap:14px}
+.principles li::before{content:counter(p);font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);border:1px solid var(--accent);border-radius:50%;width:26px;height:26px;display:grid;place-items:center;margin-top:1px}
+
+.draft{background:var(--surface);border:1px solid var(--rule);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px var(--shadow)}
+.draft-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px 10px 18px;border-bottom:1px solid var(--rule);font-size:13px;color:var(--muted)}
+.draft-body{padding:22px 24px;white-space:pre-wrap;font-size:15.5px;line-height:1.85;margin:0;font-family:var(--sans);color:var(--ink)}
+button.copy{font:inherit;font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:0;border-radius:6px;padding:6px 14px;cursor:pointer}
+
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;border-top:1px solid var(--rule)}
+.facts div{padding:14px 0;border-bottom:1px solid var(--rule);display:grid;gap:2px}
+.facts .k{font-size:13px;color:var(--muted)}
+.facts .v{font-weight:500}
+
+.source{font-size:13px;color:var(--muted);max-width:none}
+
+@media (max-width:880px){
+  .masthead{margin-left:0}
+  .layout{grid-template-columns:minmax(0,1fr);gap:28px}
+  .toc{position:static;border-bottom:1px solid var(--rule);padding-bottom:12px}
+  .toc ol{display:flex;gap:2px 18px;flex-wrap:wrap}
+}
+@media (max-width:560px){
+  .wrap{padding-block:36px 72px}
+  main{gap:56px}
+  .split,.facts{grid-template-columns:1fr}
+  .defs > div{grid-template-columns:1fr;gap:4px}
+  .who > div{grid-template-columns:1fr auto;gap:4px 12px}
+  .who > div > p{grid-column:1 / -1}
+  .verdict{padding:22px 20px}
+  .verdict .big{font-size:21px}
+  .draft-body{padding:18px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <span class="eyebrow">노페일디자인 · 내부 검토</span>
+    <h1>핑크원더 AX 검토</h1>
+    <p class="dek">대면 미팅 녹취를 바탕으로 핑크원더가 원하는 AI 솔루션, 기술적으로 되는 것과 안 되는 것, 그리고 진행 조건을 정리했습니다.</p>
+    <ul class="meta">
+      <li><b>미팅</b>2026.09.06 · 77분</li>
+      <li><b>참석</b>핑크원더 대표·마케팅 팀장·마케팅 담당, 양리건, 김낙타(리필)</li>
+      <li><b>상태</b>대표님께 조건부 진행 제안</li>
+    </ul>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="목차">
+      <p>목차</p>
+      <ol>
+        <li><a href="#bottom-line">결론</a></li>
+        <li><a href="#needs">원하는 것</a></li>
+        <li><a href="#feasibility">기술 판정</a></li>
+        <li><a href="#operations">누가 다듬나</a></li>
+        <li><a href="#message">발송 메시지</a></li>
+        <li><a href="#context">알아둘 사실</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <section id="bottom-line" aria-label="결론">
+        <div class="verdict">
+          <span class="label">결론</span>
+          <p class="big">기술은 됩니다. 막는 건 <em>운영</em>입니다.</p>
+          <p>핑크원더가 원하는 건 대시보드나 업무 자동화가 아니라, <strong>대표님께 말을 걸어 콘텐츠 재료를 끌어내고 그걸 주제·스크립트로 쌓아주는 개인 에이전트</strong>입니다. 만들 수는 있습니다. 문제는 대표님 취향에 맞게 계속 다듬어 줄 사람이 없다는 점이고, 그래서 <strong>다듬을 필요가 없는 설계</strong>와 <strong>8주 종료 조건</strong>을 걸고 조건부로 진행을 제안합니다.</p>
+        </div>
+      </section>
+
+      <section id="needs" aria-labelledby="h-needs">
+        <h2 id="h-needs">핑크원더가 원하는 것</h2>
+        <p class="lead">핵심은 하나, 대표 전용 콘텐츠 에이전트입니다. 회의 중 같은 에이전트가 기획과 동기부여를 함께 맡는 것으로 정리됐습니다.</p>
+        <blockquote>
+          <p>비서가 맨날 같이 붙어 있는 사람이면 불편하니까 시스템이었으면 좋겠다. 진짜 자비스처럼. ‘별로야, 별로야, 별로야’ 하면 그중에서 뭔가 하나가 딱 나올 거 아니에요. 그거를 정말 자유롭게 상의할 수 있는 에이전트.</p>
+          <footer>대표 <span class="tc">49:09</span></footer>
+        </blockquote>
+
+        <div class="split">
+          <div class="pane">
+            <span class="tag">기능 A</span>
+            <h3>콘텐츠 기획</h3>
+            <ul class="plain">
+              <li>인스타·블로그·성과 데이터로 계정 상태 진단</li>
+              <li>카테고리별 주제 3개, 주제별 스크립트 3–4개 초안</li>
+              <li>터진 이유·안 터진 이유 분석 (오프닝, 화면 구도)</li>
+              <li>완성 영상 자동 생성은 요구하지 않음 <span class="tc">05:03</span></li>
+            </ul>
+          </div>
+          <div class="pane">
+            <span class="tag">기능 B</span>
+            <h3>질문으로 말문 트기</h3>
+            <ul class="plain">
+              <li>지시가 아니라 인터뷰식 질문 <span class="tc">48:35</span></li>
+              <li>차 안에서 질문받으며 10분 녹화 → 59초 릴스, 이미 실행 중 <span class="tc">50:26</span></li>
+              <li>“완벽한 건 필요 없어요” <span class="tc">48:19</span></li>
+              <li>대표 답변이 자산으로 쌓여 발행까지 이어져야 함 <span class="tc">50:02</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>에이전트에 붙는 부속</h3>
+        <dl class="defs">
+          <div><dt>인스타 성과 대시보드</dt><dd>릴스 배포 후 도달 단계별 추적, 단계별 기간과 가중치 측정 <span class="tc">02:52</span><small>대표가 처음부터 관심을 표한 항목</small></dd></div>
+          <div><dt>시딩·PPL 크리에이터 분석</dt><dd>후보 계정 발굴, 계정별 콘텐츠 구조·훅 분석, 크리에이터 맞춤 스크립트 제공 <span class="tc">30:00</span><small>회의 후반 PPL·시딩을 새로 해보기로 하며 생긴 니즈</small></dd></div>
+          <div><dt>DM 자산화</dt><dd>고객별 대화 이력 요약, 자주 나오는 질문(VOC) 추출, 대표 말투로 답장 초안 <span class="tc">42:27</span><small>DM은 지금 정리 없이 쌓아만 두는 상태 <span class="tc">41:44</span></small></dd></div>
+        </dl>
+        <p class="muted">언급됐지만 당장의 니즈는 아닌 것: 통합 업무 대시보드(무엇을 묶을지 정리 안 됨), 지표 변화에 따른 이벤트 추천, 부가세·법인세 준비, CRM 메일·문자 발송(이미 GPT로 일부 해결).</p>
+      </section>
+
+      <section id="feasibility" aria-labelledby="h-feas">
+        <h2 id="h-feas">기술 판정</h2>
+        <p>핵심 에이전트는 구현 가능합니다. 부속 중 인스타 대시보드와 크리에이터 분석은 회의에서 나온 방식 그대로는 위험해서 설계를 바꿔야 합니다.</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th scope="col">항목</th><th scope="col">판정</th><th scope="col">근거와 대안</th></tr></thead>
+            <tbody>
+              <tr><td>질문·인터뷰 에이전트</td><td><span class="pill ok">가능</span></td><td>대표가 기본 Claude로 이미 하고 있습니다. 남은 일은 브랜드·일정 정보 주입, 녹취 자동 회수, 편집 지시서 자동 작성.</td></tr>
+              <tr><td>DM 자산화</td><td><span class="pill ok">가능</span></td><td>인스타 데이터 다운로드(JSON)에 DM이 포함됩니다. 본인 데이터라 약관 문제 없음. 실시간 답장은 메타 앱 심사가 필요해 2차로. 고객 개인정보라 처리 근거는 계약서에 명시.</td></tr>
+              <tr><td>주제·스크립트 추천</td><td><span class="pill ok">가능</span></td><td>품질은 넣어주는 성과 데이터의 질에 좌우됩니다.</td></tr>
+              <tr><td>광고 vs 오가닉 가입 구분</td><td><span class="pill ok">가능</span></td><td>회의에서 불가로 닫혔지만 <span class="tc">25:30</span> 자사몰에서 풀 수 있습니다. 광고 링크의 fbclid, 프로필·스토리 링크의 UTM으로 가입자별 첫 유입 경로를 기록. 완벽하진 않아도 지금의 0보다 훨씬 낫습니다.</td></tr>
+              <tr><td>인스타 성과 대시보드</td><td><span class="pill warn">설계 변경</span></td><td>대표 계정 로그인 서버 상주 방식 <span class="tc">04:03</span>은 비공식 수집이라 계정 제재 위험이 있습니다. 매출의 원천인 계정을 걸 수 없으므로 공식 API + 주 1회 인사이트 화면 캡처 판독으로 대체.</td></tr>
+              <tr><td>크리에이터 발굴·분석</td><td><span class="pill warn">설계 변경</span></td><td>타 계정은 공식 API로 팔로워·좋아요·댓글 수까지만 보입니다. 인플루언서 데이터 서비스 API로 보완. “핑크원더스러운가”의 최종 선별은 사람 몫.</td></tr>
+              <tr><td>도달 단계 세분화, 알고리즘 가중치</td><td><span class="pill no">불가</span></td><td>API가 주지 않고, 메타가 공개한 가중치표도 없습니다. 핑크원더 과거 게시물을 분석해 “우리 계정에서 도달을 끈 요인”을 추정하는 것으로 대체.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="operations" aria-labelledby="h-ops">
+        <h2 id="h-ops">누가 다듬나</h2>
+        <p class="lead">AI 질문은 사람과의 대화만큼 매끄럽지 않고, 쓰면서 계속 조율해야 합니다. 그 조율을 맡을 사람이 있는지 검토했고, 없습니다.</p>
+        <div class="who">
+          <div><span class="name">대표</span><span class="pill no">불가</span><p>챗봇이 실패한 이유가 “뭘 고쳐달라는 이야기까지 소통이 너무 오래 걸려요” <span class="tc">44:06</span>였습니다. 에이전트를 원하는 이유도 사람 비서처럼 학습시킬 필요가 없어서입니다 <span class="tc">1:12:18</span>.</p></div>
+          <div><span class="name">마케팅 팀장</span><span class="pill no">불가</span><p>매출 책임 때문에 “티적으로 할 수밖에 없다”고 직접 말했습니다 <span class="tc">48:35</span>. 대표 취향을 대신 맞추는 역할과 맞지 않습니다.</p></div>
+          <div><span class="name">김낙타 (리필)</span><span class="pill no">불가</span><p>외부 파트너라 남의 회사 에이전트를 주 단위로 돌볼 구조가 아닙니다.</p></div>
+        </div>
+        <blockquote>
+          <p>디자인팀이 만든 광고 소재를 결국엔 확인을 안 하게 되더라고요. 저의 스타일이 아니다 보니까.</p>
+          <footer>대표 <span class="tc">17:54</span> · 남이 대표 취향을 대신 맞췄을 때의 선례</footer>
+        </blockquote>
+
+        <h3>그래서, 다듬을 필요가 없는 설계로</h3>
+        <p>이미 효과를 본 세 가지, 차 안의 기본 Claude, 유니세프 출장 때의 인터뷰 질문지, 라이브 댓글은 모두 품질 조율 없이 작동했습니다. 질문이 훌륭해서가 아니라 혼자 말하는 어색함을 없애줬기 때문입니다. 대표 본인도 “옆 사람 이야기는 별로 들어가지 않지만 나의 답변이 주제가 된다”고 했습니다 <span class="tc">52:06</span>. 변수는 정확도가 아니라 물량과 넘기기 쉬움입니다.</p>
+        <ol class="principles">
+          <li><div><strong>여러 개 던지고 넘기게 한다.</strong> 질문을 맞추려 하지 않고, 대표가 “별로야” 하며 걸리는 것만 잡습니다. 맞출 필요가 없으니 손볼 것도 없습니다.</div></li>
+          <li><div><strong>팀장은 취향이 아니라 사실만 넣는다.</strong> 이번 주 프로모션, 12월 디바이스 일정, 지난주 반응 좋았던 콘텐츠. 주 1회 10분, 판단 없음.</div></li>
+          <li><div><strong>녹음 다음 날 오전까지 59초 초안.</strong> 대표 동기는 “내가 다 안 해도 굴러간다”는 증거에서 나옵니다 <span class="tc">58:44</span>. 결과가 늦으면 이탈합니다.</div></li>
+        </ol>
+        <p><strong>진짜 위험은 조용한 이탈입니다.</strong> 사람 비서와 달리 안 써도 아무도 모릅니다. 그래서 성공 기준을 미리 숫자로 정합니다. <strong>8주 동안 주 2회 이상 녹음이 나오지 않으면 종료.</strong></p>
+      </section>
+
+      <section id="message" aria-labelledby="h-msg">
+        <h2 id="h-msg">대표님께 보낼 메시지</h2>
+        <p class="muted">카카오톡 발송용. “프롬프트”, “튜닝” 같은 용어는 일부러 뺐습니다.</p>
+        <div class="draft">
+          <div class="draft-head"><span>발송 초안</span><button type="button" class="copy" id="copy-msg">복사</button></div>
+<pre class="draft-body" id="msg-text">대표님, 어제 미팅 감사했습니다. 정리하면서 계속 고민해봤는데요.
+
+기술은 됩니다. 걱정되는 건 지난번 챗봇처럼 만들어놓고 안 쓰시게 되는 경우입니다. 대표님 취향에 맞게 누가 계속 손봐야 하는 구조로 만들면 반드시 그렇게 됩니다. 그 취향은 팀장님도 낙타님도 대신 못 맞춥니다. 디자인팀 광고 소재도 결국 확인 안 하게 되셨잖아요. 똑같은 일이 벌어집니다.
+
+그래서 취향을 맞추려는 시도를 아예 빼려고 합니다.
+
+1. 질문을 정교하게 고르지 않습니다. 한 번에 여러 개 던지고, 대표님은 지금처럼 "별로야" 하고 넘기시다가 걸리는 것만 잡으시면 됩니다. 맞출 필요가 없으니 손볼 것도 없습니다.
+
+2. 팀장님은 취향이 아니라 사실만 넣습니다. 이번 주 프로모션, 12월 디바이스 일정, 지난주 반응 좋았던 콘텐츠. 주 1회 10분이면 되고 판단은 안 하셔도 됩니다.
+
+3. 녹음하신 다음 날 오전까지 59초 편집본 초안이 나오게 만듭니다. 여기가 느리면 아무리 잘 만들어도 죽습니다.
+
+그리고 8주 돌려보고 주 2회 녹음이 안 나오면 접는 걸로 미리 정해두고 시작하고 싶습니다. 이 조건이면 해볼 만합니다.</pre>
+        </div>
+      </section>
+
+      <section id="context" aria-labelledby="h-ctx">
+        <h2 id="h-ctx">제안 전에 알아둘 사실</h2>
+        <div class="facts">
+          <div><span class="k">메타 광고비</span><span class="v">월 1억 원 미만, 축소 예정 <span class="tc">26:26</span></span></div>
+          <div><span class="k">핵심 KPI</span><span class="v">신규 가입 주 200–250명 목표, 현재 100–150명</span></div>
+          <div><span class="k">재구매율</span><span class="v">60% 이상, 철학을 보고 온 고객 객단가 10–15만 원+</span></div>
+          <div><span class="k">브랜드 가드레일</span><span class="v">자극적인 훅으로 들어온 고객은 악성 비율 높음 <span class="tc">1:01:45</span></span></div>
+          <div><span class="k">사내 개발 인력</span><span class="v">개발자·퍼블리셔 0명, 전부 외주 <span class="tc">1:08:34</span></span></div>
+          <div><span class="k">과거 AI 도입</span><span class="v">자체 챗봇 개발 후 미사용, 채널톡 ALF로 전환 중</span></div>
+          <div><span class="k">빅 이벤트</span><span class="v">12월 중순 뷰티 디바이스 출시, 80만 원대</span></div>
+          <div><span class="k">조직</span><span class="v">2–3분기 개편 완료, 대표 본인 역할 정의만 미정</span></div>
+        </div>
+        <p class="source">출처: 핑크원더 대면미팅 녹음(2026.09.06) 클로바노트 자동 전사. 화자 구분이 일부 부정확하며, 타임코드는 녹취 기준입니다.</p>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('copy-msg');
+  var src=document.getElementById('msg-text');
+  if(!btn||!src)return;
+  function done(){btn.textContent='복사됨';setTimeout(function(){btn.textContent='복사';},1800);}
+  function fallback(){
+    var r=document.createRange();r.selectNodeContents(src);
+    var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+    try{document.execCommand('copy');done();}catch(e){btn.textContent='직접 선택해 복사하세요';}
+  }
+  btn.addEventListener('click',function(){
+    var text=src.textContent;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done,fallback);
+    }else{fallback();}
+  });
+})();
+</script>
+</body>
+</html>
